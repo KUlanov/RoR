@@ -10,5 +10,6 @@ if diskr>0
 elsif diskr==0
     puts "Дискриминант =#{diskr}"
     puts "X=#{(-b)/(2*a)}"
-else puts"Корней нет!"
+else 
+    puts"Корней нет!"
 end
