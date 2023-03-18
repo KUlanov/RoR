@@ -17,4 +17,4 @@ basket.each {
      |i, value|
      summ += value[0] * value[1]
    }
-puts summ
+puts "Сумма всех покупок: #{summ}"
