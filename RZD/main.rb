@@ -93,9 +93,11 @@ class Train
   def add_route(route) #новый маршрут
     @route = route
     @train_station = 0
-    @@station_list.each |i, value|
+    @@station_list.each {|i, value|
       if @route[i].show_train_list.include? (self)# проверяем был ли этот поезд уже на одной из станций
         @route[i].output_train(self) # если был удаляем его, т.к. задан новый маршрут
+      end
+      }
     @route[0].input_train(self)
     
   end
