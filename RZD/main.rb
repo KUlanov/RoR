@@ -7,4 +7,4 @@ require_relative "wagon"
 require_relative "wagon_passenger"
 require_relative "wagon_cargo"
 require_relative "rzd"
-r = Rzd.new
+#r = Rzd.new
