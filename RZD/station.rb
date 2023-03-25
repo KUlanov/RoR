@@ -1,14 +1,13 @@
-Class Station
+class Station
+  
   attr_accessor :name, :train_list
 
-  #@@station_list =[]
   def initialize(name)
-    @name = name
-    @train_list = []
-   # @@station_list << self
+    self.name = name
+    self.train_list = []    
   end
 
-  def input_train(train) 
+  def input_train(train)
     self.train_list << train
   end
 
