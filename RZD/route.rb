@@ -14,8 +14,6 @@ class Route
   end 
 
   def show_route_list
-    self.route_list.each do |station| 
-      print " #{station.name}" 
-    end
+    self.route_list.each do {|station| print " #{station.name}"}     
   end
 end
