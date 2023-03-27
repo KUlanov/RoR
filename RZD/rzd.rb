@@ -2,12 +2,14 @@ class Rzd
 
   attr_accessor :station_lists, :route_lists, :train_cargo_lists, :train_passenger_lists
 
+  @type_train
+
   def initialize
     @station_lists = []
     @route_lists = []
     @train_cargo_lists = []
     @train_passenger_lists = []
-  end
+     end
 
   def add_station(name)
     self.station_lists << Station.new(name)
@@ -16,8 +18,9 @@ class Rzd
   def add_train(number_train, type_train, wagons)
     if type_train == "Cargo"
       self.train_cargo_lists << Train_Cargo.new(number_train, type_train, wagons)
-    elsif self.type_train == "Passenger" << Train_Passenger.new(number_train, type_train, wagons)
-    else nill
+    elsif type_train == "Passenger" 
+      self.train_passenger_lists<< Train_Passenger.new(number_train, type_train, wagons)
+    else nil
     end
   end
 
@@ -26,31 +29,43 @@ class Rzd
   end
 
   def show_station_lists
-    self.station_lists.each { |station| puts "#{self.station_lists.index(station)} : #{station.name}" }
+    self.station_lists.each { |station| puts "#{self.station_lists.index(station)+1} : #{station.name}" }
   end
 
   def show_train_lists
     puts "Пассажирские поезда:"
-    self.train_passenger_lists.each { |train| puts "#{self.train_passenger_lists.index(train)} : #{train.number}" }
+    self.train_passenger_lists.each { |train| puts "#{self.train_passenger_lists.index(train)+1} : #{train.number}" }
     puts "Грузовые поезда:"
-    self.train_cargo_lists.each { |train| puts "#{self.train_cargo_lists.index(train)} : #{train.number}" }
+    self.train_cargo_lists.each { |train| puts "#{self.train_cargo_lists.index(train)+1} : #{train.number}" }
   end
 
 
   def show_route_lists
     self.route_lists.each do |route| 
-      print "#{self.route_lists.index(route)} :"
+      print "#{self.route_lists.index(route)+1} :"
       puts "#{route.show_route_list}!" 
     end
   end
 
   def insert_type_train
-    print "Введите тип поезда. 1 - пасажирский. 2 - грузовой"
+    print "Введите тип поезда. 1 - пасажирский. 2 - грузовой: "
     type = gets.to_i
     if type == 1 
       @type_train = "Passenger"
     elsif type == 2 
       @type_train = "Cargo"
+    end    
+  end
+
+  def select_train
+    self.show_train_lists
+    self.insert_type_train          
+    print "Введите порядковый номер поезда: "
+    i = gets.to_i-1
+    if @type_train == "Cargo" 
+      @current_train = self.train_cargo_lists[i]
+    elsif @type_train == "Passenger"
+      @current_train = self.train_passenger_lists[i]
     end
   end
 
@@ -109,25 +124,25 @@ class Rzd
       if input == 1 
         self.show_station_lists
         print "Введите номер первой станции:"
-        station_f = self.station_lists[gets.to_i]
+        station_f = self.station_lists[gets.to_i-1]
         print "Введите номер второй станции:"
-        station_l = self.station_lists[gets.to_i]
+        station_l = self.station_lists[gets.to_i-1]
         add_route(station_f, station_l)
       elsif input == 2 
         self.show_route_lists
         self.show_station_lists
         print "Введите номер маршрута."
-        i = gets.to_i
+        i = gets.to_i-1
         print "Введите номер станции."
-        station=self.station_lists[gets.to_i]
+        station=self.station_lists[gets.to_i-1]
         self.route_lists[i].add_route_station(station)    
       elsif input == 3 
         self.show_route_lists
         self.show_station_lists
         print "Введите номер маршрута."
-        i = gets.to_i
+        i = gets.to_i-1
         print "Введите номер станции."
-        station=self.station_lists[gets.to_i]
+        station=self.station_lists[gets.to_i-1]
         self.route_lists[i].del_route_station(station)    
       elsif input == 0 
         break
@@ -137,6 +152,7 @@ class Rzd
 
   def train_menu
     loop do
+      self.show_train_lists
       puts "Что вы хотите сделать?"
       puts "1. Добавить поезд"
       puts "2. Установить маршрут поезду"
@@ -149,29 +165,37 @@ class Rzd
       input = gets.to_i
 
       if input == 1
-        print "Введите номер поезда"
+        print "Введите номер поезда: "
         name = gets.chomp
         self.insert_type_train
-        print "Введите количество вагонов"
+        print "Введите количество вагонов: "
         wagon = gets.to_i
         
         self.add_train(name, @type_train, wagon)
       elsif input == 2
-        self.insert_type_train          
-        self.show_train_lists
-        print "Введите порядковый номер поезда:"
-        i = gets.to_i
+        self.select_train
         self.show_route_lists
-        print "Введите номер маршрута:"
-        n = gets.to_i
-        if @type_train == "Cargo" 
-          train_cargo_lists[i].add_route(show_route_lists[n])
-        elsif @type_train == "Passenger"
-          train_passenger_lists[i].add_route(self.route_lists[n])
-        end
-        
+        print "Введите номер маршрута: "
+        n = gets.to_i-1
+        @current_train.add_route(show_route_lists[n])        
+      elsif input == 3 
+        self.select_train
+        @current_train.add_wagons
+        @current_train.add_route(show_route_lists[n])        
+      elsif input == 4 
+        self.select_train
+        @current_train.del_wagons
+      elsif input == 5 
+        self.select_train
+        @current_train.train_route_up
+      elsif input == 6 
+        self.select_train
+        @current_train.train_route_down
+      elsif input == 0 
+        break
+      end          
 
     end
-
+  end
 
 end

@@ -1,3 +1,7 @@
-class Wagon_Cargo <Wagon
+class Wagon_Cargo < Wagon
+
+  def initialize
+    @type = "Cargo"
+  end
 
 end

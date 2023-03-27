@@ -4,7 +4,8 @@ class Train_Cargo < Train
   def initialize(number_train, type_train, wagons)
     super
     @type_train = "Cargo"
-    wagons.each {self.add_wagons}
+    @train_wagon_list =[]
+    (1 ...wagons).each {self.add_wagons}
   end
   
   def add_wagons
@@ -17,7 +18,7 @@ class Train_Cargo < Train
 
   def del_wagons
     if self.speed == 0
-         self.train_wagon_list -=1 
+         self.train_wagon_list[-1] = nil 
     else 
       puts "Поезд движеться. Нельзя отцепить вагоны!"
     end

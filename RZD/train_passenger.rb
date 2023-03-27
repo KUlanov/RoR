@@ -4,7 +4,8 @@ class Train_Passenger < Train
   def initialize(number_train, type_train, wagons)
     super
     @type_train = "Passenger"
-    wagons.each { @train_wagon_list << Wagon_Passenger.new }
+    @train_wagon_list =[]
+    (1 ... wagons).each { @train_wagon_list << Wagon_Passenger.new }
   end
 
   def add_wagons

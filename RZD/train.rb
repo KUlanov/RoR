@@ -1,12 +1,13 @@
 class Train
-  attr_reader :number, :type
+  attr_reader :number, :type_train, :train_wagon_list
   attr_accessor :speed, :route, :wagons
   
   def initialize(number_train, type_train, wagons) 
     @number = number_train
-    @type = type_train
-    @wagons = wagons
+    @type_train = type_train
+    @train_wagon_list = wagons
     @speed = 0
+    route = []
   end
 
   def speed_train_up
@@ -31,7 +32,7 @@ class Train
   
   def add_wagons
     if self.speed == 0
-         self.wagons +=1 
+         self.train_wagon_list +=1 
     else 
       puts "Поезд движеться. Нельзя прицепить вагоны!"
     end
@@ -39,7 +40,7 @@ class Train
 
   def del_wagons
     if self.speed == 0
-         self.wagons -=1 
+         self.train_wagon_list -=1 
     else 
       puts "Поезд движеться. Нельзя отцепить вагоны!"
     end

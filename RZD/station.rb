@@ -9,10 +9,12 @@ class Station
 
   def input_train(train)
     self.train_list << train
+    puts "Поезд № #{train.number} прибыл на станцию #{self.name}"
   end
 
   def output_train(train)
     self.train_list.delete(train)
+    puts "Поезд № #{train.number} убыл со станции #{self.name}"
   end
 
   def show_train_list
