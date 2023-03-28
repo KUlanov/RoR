@@ -1,13 +1,21 @@
 class Train
   attr_reader :number, :type_train, :train_wagon_list
-  attr_accessor :speed, :route, :wagons
+  attr_accessor :speed, :route
   
   def initialize(number_train, type_train, wagons) 
     @number = number_train
     @type_train = type_train
-    @train_wagon_list = wagons
+    @train_wagon_list = [1 ... wagons]
     @speed = 0
     route = []
+  end
+
+  def train_wagon_quantity # возвращаем количество вагонов
+    self.train_wagon_list.size
+  end
+
+  def train_current_station 
+    self.route.route_list[@train_station] unless self.train_route_nil?
   end
 
   def speed_train_up
@@ -46,18 +54,14 @@ class Train
     end
   end
 
+  def train_route_nil? 
+    self.route.nil?
+  end
+
   def add_route(route) #новый маршрут
     self.route = route
     @train_station = 0
-=begin  
-    @@station_list.each do |i, value|
-      if @route[i].show_train_list.include? (self)# проверяем был ли этот поезд уже на одной из станций
-        @route[i].output_train(self) # если был удаляем его, т.к. задан новый маршрут
-      end
-    end
-=end    
-    self.route.route_list[0].input_train(self)
-    
+    self.route.route_list[0].input_train(self)    
   end
 
   def train_route_up
@@ -78,6 +82,10 @@ class Train
     else
       puts "Вы на первой станции маршрута!"
     end
+  end
+
+  def train_station_del #Убираем поезд с текущей станции
+    self.route.route_list[@train_station].output_train(self)
   end
 
 

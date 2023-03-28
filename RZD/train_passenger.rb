@@ -18,7 +18,7 @@ class Train_Passenger < Train
 
   def del_wagons
     if self.speed == 0
-         self.train_wagon_list[-1] = nil 
+      self.train_wagon_list.delete_at(-1)
     else 
       puts "Поезд движеться. Нельзя отцепить вагоны!"
     end

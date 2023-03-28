@@ -29,21 +29,36 @@ class Rzd
   end
 
   def show_station_lists
-    self.station_lists.each { |station| puts "#{self.station_lists.index(station)+1} : #{station.name}" }
+    puts
+    puts "Существующие станции:"
+    self.station_lists.each { |station| puts "№#{self.station_lists.index(station)+1} : #{station.name}" }
   end
 
   def show_train_lists
+    puts
     puts "Пассажирские поезда:"
-    self.train_passenger_lists.each { |train| puts "#{self.train_passenger_lists.index(train)+1} : #{train.number}" }
+    self.train_passenger_lists.each do |train| 
+      print "№#{self.train_passenger_lists.index(train)+1} : #{train.number}."
+      print " Количество вагонов: #{train.train_wagon_quantity}"
+      print "   Текущая станция: #{train.train_current_station.name}" if train.train_current_station
+      puts
+    end
     puts "Грузовые поезда:"
-    self.train_cargo_lists.each { |train| puts "#{self.train_cargo_lists.index(train)+1} : #{train.number}" }
+    self.train_cargo_lists.each  do |train| 
+      print "№#{self.train_cargo_lists.index(train)+1} : #{train.number}" 
+      print " Количество вагонов: #{train.train_wagon_quantity}"
+      print "   Текущая станция: #{train.train_current_station.name}" if train.train_current_station
+      puts
+    end
   end
 
 
   def show_route_lists
+    puts
+    puts "Действующие маршруты:"
     self.route_lists.each do |route| 
-      print "#{self.route_lists.index(route)+1} :"
-      puts "#{route.show_route_list}!" 
+      print "№#{self.route_lists.index(route)+1} :"
+      route.show_route_list 
     end
   end
 
@@ -111,7 +126,6 @@ class Rzd
   end
 
   def route_menu
-    #self.show_route_lists
     loop do
       self.show_route_lists
       puts "Что вы хотите сделать?"
@@ -175,22 +189,39 @@ class Rzd
       elsif input == 2
         self.select_train
         self.show_route_lists
+        unless @current_train.train_route_nil?          
+          @current_train.train_station_del
+        end
         print "Введите номер маршрута: "
         n = gets.to_i-1
+        unless @current_train.train_route_nil?          
+          @current_train.train_station_del
+        end
         @current_train.add_route(show_route_lists[n])        
       elsif input == 3 
         self.select_train
-        @current_train.add_wagons
-        @current_train.add_route(show_route_lists[n])        
+        @current_train.add_wagons              
       elsif input == 4 
         self.select_train
-        @current_train.del_wagons
+        if @current_train.train_wagon_quantity > 0
+          @current_train.del_wagons
+        else
+          puts "У поезда не может быть отрицательное количество вагонов!"
+        end
       elsif input == 5 
         self.select_train
-        @current_train.train_route_up
+        if @current_train.train_route_nil?
+          puts "У поезда не задан маршрут!" 
+        else 
+          @current_train.train_route_up
+        end
       elsif input == 6 
         self.select_train
-        @current_train.train_route_down
+        if @current_train.train_route_nil?
+          puts "У поезда не задан маршрут!" 
+        else 
+          @current_train.train_route_down
+        end
       elsif input == 0 
         break
       end          

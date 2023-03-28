@@ -10,10 +10,15 @@ class Route
   end
 
   def del_route_station(station)
+    if self.route_list.size > 2
     self.route_list.delete(station)
+    else 
+      puts "В маршруте не может быть меньше 2-х станций"
+    end
   end 
 
   def show_route_list
     self.route_list.each {|station| print " #{station.name}"}     
+    puts
   end
 end
