@@ -1,10 +1,15 @@
 class Station
-  
   attr_accessor :name, :train_list
+  @@station_list=[]
+
+  def self.all
+    @@station_list
+  end
 
   def initialize(name)
     self.name = name
-    self.train_list = []    
+    self.train_list = []  
+    @@station_list << self
   end
 
   def input_train(train)

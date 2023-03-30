@@ -5,14 +5,13 @@ class Rzd
   @type_train
 
   def initialize
-    @station_lists = []
     @route_lists = []
     @train_cargo_lists = []
     @train_passenger_lists = []
      end
 
   def add_station(name)
-    self.station_lists << Station.new(name)
+    Station.new(name)
   end  
 
   def add_train(number_train, type_train, wagons)
@@ -31,7 +30,7 @@ class Rzd
   def show_station_lists
     puts
     puts "Существующие станции:"
-    self.station_lists.each { |station| puts "№#{self.station_lists.index(station)+1} : #{station.name}" }
+    Station.all.each { |stations| puts "№#{Station.all.index(stations)+1} : #{stations.name}" }
   end
 
   def show_train_lists
@@ -104,9 +103,9 @@ class Rzd
     end
   end
 
-  def staion_menu
-    self.show_station_lists
+  def staion_menu      
     loop do
+      self.show_station_lists
       puts "Что вы хотите сделать?"
       puts "1. Добавить станцию"
       puts "2. Посмотреть список поездов на станции"
@@ -148,7 +147,7 @@ class Rzd
         print "Введите номер маршрута."
         i = gets.to_i-1
         print "Введите номер станции."
-        station=self.station_lists[gets.to_i-1]
+        station=Station.all[gets.to_i-1]
         self.route_lists[i].add_route_station(station)    
       elsif input == 3 
         self.show_route_lists
@@ -156,7 +155,7 @@ class Rzd
         print "Введите номер маршрута."
         i = gets.to_i-1
         print "Введите номер станции."
-        station=self.station_lists[gets.to_i-1]
+        station=Station.all[gets.to_i-1]
         self.route_lists[i].del_route_station(station)    
       elsif input == 0 
         break
