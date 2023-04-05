@@ -1,13 +1,24 @@
 class Train
   attr_reader :number, :type_train, :train_wagon_list
   attr_accessor :speed, :route
-  
+
+  @@train_all=[]
+  def self.train_all
+    @@train_all
+  end
+
+  def self.find(number)
+    Train.train_all.find {|train| train.number == number}
+  end
+
   def initialize(number_train, type_train, wagons) 
     @number = number_train
     @type_train = type_train
     @train_wagon_list = [1 ... wagons]
     @speed = 0
     route = []
+    manufactured=""
+    @@train_all << self
   end
 
   def train_wagon_quantity # возвращаем количество вагонов
