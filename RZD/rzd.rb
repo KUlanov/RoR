@@ -31,6 +31,7 @@ class Rzd
     puts
     puts "Существующие станции:"
     Station.all.each { |stations| puts "№#{Station.all.index(stations)+1} : #{stations.name}" }
+    puts Station.instance
   end
 
   def show_train_lists
@@ -40,14 +41,14 @@ class Rzd
       print "№#{self.train_passenger_lists.index(train)+1} : #{train.number}."
       print " Количество вагонов: #{train.train_wagon_quantity}"
       print "   Текущая станция: #{train.train_current_station.name}" if train.train_current_station
-      puts
+      puts Train_Passenger.instance
     end
     puts "Грузовые поезда:"
     self.train_cargo_lists.each  do |train| 
       print "№#{self.train_cargo_lists.index(train)+1} : #{train.number}" 
       print " Количество вагонов: #{train.train_wagon_quantity}"
       print "   Текущая станция: #{train.train_current_station.name}" if train.train_current_station
-      puts
+      puts Train_Cargo.instance
     end
   end
 
@@ -59,6 +60,7 @@ class Rzd
       print "№#{self.route_lists.index(route)+1} :"
       route.show_route_list 
     end
+    puts Route.instance
   end
 
   def insert_type_train

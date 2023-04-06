@@ -1,3 +1,5 @@
+require_relative "company"
+require_relative "instance_counter"
 require_relative "station"
 require_relative "train"
 require_relative "train_cargo"
@@ -7,7 +9,7 @@ require_relative "wagon"
 require_relative "wagon_passenger"
 require_relative "wagon_cargo"
 require_relative "rzd"
-require_relative "module"
+
 r = Rzd.new
 r.add_station("Moscow")
 r.add_station("St. Peterburg")

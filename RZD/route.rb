@@ -1,8 +1,10 @@
 class Route
+  include InstanceCounter
   attr_accessor :route_list
   
   def initialize(f_station, l_station)
     @route_list = [f_station, l_station]
+    self.register_instance
   end
 
   def add_route_station(station)

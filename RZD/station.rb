@@ -1,4 +1,5 @@
 class Station
+  include InstanceCounter
   attr_accessor :name, :train_list
   @@station_list=[]
 
@@ -10,6 +11,7 @@ class Station
     self.name = name
     self.train_list = []  
     @@station_list << self
+    self.register_instance
   end
 
   def input_train(train)
@@ -23,7 +25,7 @@ class Station
   end
 
   def show_train_list
-    self.train_list.each {|train| puts train.number}
+    self.train_list.each {|train| puts train.number}    
   end
 
   def show_train_tips(type)

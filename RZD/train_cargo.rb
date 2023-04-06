@@ -1,4 +1,5 @@
 class Train_Cargo < Train
+  include InstanceCounter
   attr_reader :type_train, :train_wagon_list
 
   def initialize(number_train, type_train, wagons)
@@ -6,6 +7,7 @@ class Train_Cargo < Train
     @type_train = "Cargo"
     @train_wagon_list =[]
     (1 ...wagons).each {self.add_wagons}
+    self.register_instance
   end
   
   def add_wagons
@@ -18,10 +20,11 @@ class Train_Cargo < Train
 
   def del_wagons
     if self.speed == 0
-      self.train_wagon_list.delete_at(-1)
+      self.train_wagon_list.delete_at(-1)      
     else 
       puts "Поезд движеться. Нельзя отцепить вагоны!"
     end
+
   end
 
 end

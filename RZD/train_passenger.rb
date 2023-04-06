@@ -1,4 +1,5 @@
 class Train_Passenger < Train
+  include InstanceCounter
   attr_reader :type_train, :train_wagon_list
 
   def initialize(number_train, type_train, wagons)
@@ -6,6 +7,7 @@ class Train_Passenger < Train
     @type_train = "Passenger"
     @train_wagon_list =[]
     (1 ... wagons).each { @train_wagon_list << Wagon_Passenger.new }
+    self.register_instance
   end
 
   def add_wagons
