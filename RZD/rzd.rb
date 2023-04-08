@@ -35,15 +35,15 @@ class Rzd
     self.train_passenger_lists.each do |train| 
       print "№#{self.train_passenger_lists.index(train)+1} : #{train.number}."
       print " Количество вагонов: #{train.train_wagon_quantity}"
-      print "   Текущая станция: #{train.train_current_station.name}" if train.train_current_station
-      puts Train_Passenger.instance
+      print "   Текущая станция: #{train.train_current_station.name}" if train.train_current_station      
+      puts
     end
     puts "Грузовые поезда:"
     self.train_cargo_lists.each  do |train| 
       print "№#{self.train_cargo_lists.index(train)+1} : #{train.number}" 
       print " Количество вагонов: #{train.train_wagon_quantity}"
       print "   Текущая станция: #{train.train_current_station.name}" if train.train_current_station
-      puts Train_Cargo.instance
+      puts
     end
   end
 
@@ -182,13 +182,17 @@ class Rzd
       input = gets.to_i
 
       if input == 1
+      begin
         print "Введите номер поезда: "
-        name = gets.chomp
+        name = gets.chomp        
         self.insert_type_train
         print "Введите количество вагонов: "
         wagon = gets.to_i
         
         self.add_train(name, @type_train, wagon)
+      rescue StandardError 
+        retry
+       end
       elsif input == 2
         self.select_train
         self.show_route_lists

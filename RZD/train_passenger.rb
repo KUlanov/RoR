@@ -6,7 +6,7 @@ class Train_Passenger < Train
     super
     @type_train = "Passenger"
     @train_wagon_list =[]
-    (1 ... wagons).each { @train_wagon_list << Wagon_Passenger.new }
+    (0 ... wagons).each { self.add_wagons }
     self.register_instance
   end
 

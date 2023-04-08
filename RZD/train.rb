@@ -2,6 +2,7 @@ class Train
   include Company
   attr_reader :number, :type_train, :train_wagon_list
   attr_accessor :speed, :route
+  TYPENUM = /^\w{3}-?\w{2}$/
 
   @@train_all=[]
   def self.train_all
@@ -14,6 +15,7 @@ class Train
 
   def initialize(number_train, type_train, wagons) 
     @number = number_train
+    #validate!
     @type_train = type_train
     @train_wagon_list = [1 ... wagons]
     @speed = 0
@@ -100,5 +102,14 @@ class Train
     self.route.route_list[@train_station].output_train(self)
   end
 
+  def valid?
+    self.validate!
+    true
+  rescue StandardError
+    false
+  end
 
+  def validate!
+    raise puts 'Некоректный формат номера поезда!' if self.number !~ TYPENUM
+  end
 end
