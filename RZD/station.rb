@@ -10,8 +10,9 @@ class Station
   def initialize(name)
     self.name = name
     self.train_list = []  
+    self.validate!
     @@station_list << self
-    self.register_instance
+    self.register_instance        
   end
 
   def input_train(train)
@@ -30,5 +31,16 @@ class Station
 
   def show_train_tips(type)
     
+  end
+
+  def valid?
+    self.validate!
+    true
+  rescue StandardError
+    false
+  end
+
+  def validate!
+    raise puts 'Название станции не должно быть пустым!' if self.name.empty?    
   end
 end

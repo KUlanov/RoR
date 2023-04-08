@@ -5,14 +5,20 @@ class Rzd
   @type_train
 
   def initialize
-    @route_lists = []
     @train_cargo_lists = []
     @train_passenger_lists = []
      end
 
   def add_station(name)
-    Station.new(name)
-  end  
+    Station.new(name)    
+  end
+
+  def show_station_lists
+    puts
+    puts "Существующие станции:"
+    Station.all.each { |stations| puts "№#{Station.all.index(stations)+1} : #{stations.name}" }
+    puts Station.instance
+  end
 
   def add_train(number_train, type_train, wagons)
     if type_train == "Cargo"
@@ -21,17 +27,6 @@ class Rzd
       self.train_passenger_lists<< Train_Passenger.new(number_train, type_train, wagons)
     else nil
     end
-  end
-
-  def add_route(f_station, l_station)
-    self.route_lists << Route.new(f_station, l_station)    
-  end
-
-  def show_station_lists
-    puts
-    puts "Существующие станции:"
-    Station.all.each { |stations| puts "№#{Station.all.index(stations)+1} : #{stations.name}" }
-    puts Station.instance
   end
 
   def show_train_lists
@@ -52,12 +47,15 @@ class Rzd
     end
   end
 
-
+  def add_route(f_station, l_station)
+    Route.new(f_station, l_station)    
+  end
+  
   def show_route_lists
     puts
     puts "Действующие маршруты:"
-    self.route_lists.each do |route| 
-      print "№#{self.route_lists.index(route)+1} :"
+    Route.all.each do |route| 
+      print "№#{Route.all.index(route)+1} :"
       route.show_route_list 
     end
     puts Route.instance
@@ -114,8 +112,12 @@ class Rzd
       puts "0. Выход"
       input = gets.to_i
       if input == 1 
+        begin
         print "Введите название станции:"
         self.add_station(gets.chomp)
+        rescue StandardError 
+          retry
+        end
       elsif input == 2 
         print "Введите номер станции."
         n=gets.to_i
