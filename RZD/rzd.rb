@@ -191,7 +191,7 @@ class Rzd
         
         self.add_train(name, @type_train, wagon)
       rescue StandardError 
-        retry
+        #retry
        end
       elsif input == 2
         self.select_train

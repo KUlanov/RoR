@@ -15,7 +15,7 @@ class Train
 
   def initialize(number_train, type_train, wagons) 
     @number = number_train
-    #validate!
+    validate!
     @type_train = type_train
     @train_wagon_list = [1 ... wagons]
     @speed = 0
