@@ -7,7 +7,7 @@ class Train_Cargo < Train
     @type_train = "Cargo"
     @train_wagon_list =[]
     (0 ... wagons).each {self.add_wagons}
-    self.register_instance
+    register_instance
   end
   
   def add_wagons

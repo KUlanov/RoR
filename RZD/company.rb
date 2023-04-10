@@ -1,6 +1,6 @@
 module Company  
   def output_name_company
-    self.name_company
+    name_company
   end
 
   def input_name_company (name)
