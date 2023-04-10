@@ -12,7 +12,7 @@ class Train_Cargo < Train
   
   def add_wagons
     if self.speed == 0
-         self.train_wagon_list << Wagon_Cargo.new
+         train_wagon_list << Wagon_Cargo.new
     else 
       puts "Поезд движеться. Нельзя прицепить вагоны!"
     end
@@ -20,11 +20,10 @@ class Train_Cargo < Train
 
   def del_wagons
     if self.speed == 0
-      self.train_wagon_list.delete_at(-1)      
+      train_wagon_list.delete_at(-1)      
     else 
       puts "Поезд движеться. Нельзя отцепить вагоны!"
     end
-
   end
 
 end

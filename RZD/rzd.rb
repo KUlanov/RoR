@@ -3,6 +3,8 @@ class Rzd
   attr_accessor :station_lists, :route_lists, :train_cargo_lists, :train_passenger_lists
 
   @type_train
+  @current_station
+  @current_route
 
   def initialize
     @train_cargo_lists = []
@@ -16,9 +18,17 @@ class Rzd
   def show_station_lists
     puts
     puts "Существующие станции:"
-    Station.all.each { |stations| puts "№#{Station.all.index(stations)+1} : #{stations.name}" }
-    puts Station.instance
+    Station.all.each { |stations| puts "№#{Station.all.index(stations)+1} : #{stations.name}" }    
   end
+
+  def current_station
+    print "Введите номер станции:"
+    i= gets.to_i-1
+    Station.station?(i)
+    @current_station = Station.all[i] 
+    rescue StandardError
+    retry
+  end        
 
   def add_train(number_train, type_train, wagons)
     if type_train == "Cargo"
@@ -58,8 +68,16 @@ class Rzd
       print "№#{Route.all.index(route)+1} :"
       route.show_route_list 
     end
-    puts Route.instance
   end
+
+  def current_route
+    print "Введите номер маршрута:"
+    i= gets.to_i-1
+    Route.route?(i)
+    @current_route = Route.all[i] 
+    rescue StandardError
+    retry
+  end      
 
   def insert_type_train
     print "Введите тип поезда. 1 - пасажирский. 2 - грузовой: "
@@ -68,7 +86,10 @@ class Rzd
       @type_train = "Passenger"
     elsif type == 2 
       @type_train = "Cargo"
+    elsif raise puts "Неправильный тип. Выберите один из двух типов!"    
     end    
+  rescue StandardError  
+    retry
   end
 
   def select_train
@@ -119,9 +140,8 @@ class Rzd
           retry
         end
       elsif input == 2 
-        print "Введите номер станции."
-        n=gets.to_i
-        self.station_lists[n].show_train_list
+        current_station.show_train_list
+        #Station.all[n].show_train_list
       elsif input == 0 
         break
       end
@@ -130,7 +150,7 @@ class Rzd
 
   def route_menu
     loop do
-      self.show_route_lists
+      show_route_lists
       puts "Что вы хотите сделать?"
       puts "1. Добавить маршрут"
       puts "2. Добавить станцию к маршруту"
@@ -139,28 +159,34 @@ class Rzd
 
       input = gets.to_i
       if input == 1 
-        self.show_station_lists
-        print "Введите номер первой станции:"
-        station_f = self.station_lists[gets.to_i-1]
-        print "Введите номер второй станции:"
-        station_l = self.station_lists[gets.to_i-1]
+        show_station_lists
+        print "Станция №1: "
+        current_station
+        station_f=current_station        
+        print "Станция №2: "
+        #current_station
+        station_l=current_station
         add_route(station_f, station_l)
       elsif input == 2 
+       begin
         self.show_route_lists
         self.show_station_lists
-        print "Введите номер маршрута."
-        i = gets.to_i-1
-        print "Введите номер станции."
-        station=Station.all[gets.to_i-1]
-        self.route_lists[i].add_route_station(station)    
+        station=current_station        
+        raise puts "Такая станция уже существует в маршруте"  if current_route.find_station(station)
+        rescue StandardError
+          retry
+        end    
+        @current_route.add_route_station(station)    
       elsif input == 3 
+       begin 
         self.show_route_lists
-        self.show_station_lists
-        print "Введите номер маршрута."
-        i = gets.to_i-1
-        print "Введите номер станции."
-        station=Station.all[gets.to_i-1]
-        self.route_lists[i].del_route_station(station)    
+        self.show_station_lists        
+        station=current_station
+        raise puts "Такая станция не существует в маршруте"  unless current_route.find_station(station)
+        rescue StandardError
+          retry
+       end
+        @current_route.del_route_station(station)    
       elsif input == 0 
         break
       end
@@ -196,15 +222,12 @@ class Rzd
       elsif input == 2
         self.select_train
         self.show_route_lists
-        unless @current_train.train_route_nil?          
-          @current_train.train_station_del
-        end
         print "Введите номер маршрута: "
         n = gets.to_i-1
         unless @current_train.train_route_nil?          
           @current_train.train_station_del
         end
-        @current_train.add_route(show_route_lists[n])        
+        @current_train.add_route(Route.all[n])        
       elsif input == 3 
         self.select_train
         @current_train.add_wagons              

@@ -25,11 +25,11 @@ class Train
   end
 
   def train_wagon_quantity # возвращаем количество вагонов
-    self.train_wagon_list.size
+    train_wagon_list.size
   end
 
   def train_current_station 
-    self.route.route_list[@train_station] unless self.train_route_nil?
+    route.route_station[@train_station] unless self.train_route_nil?
   end
 
   def speed_train_up
@@ -69,20 +69,20 @@ class Train
   end
 
   def train_route_nil? 
-    self.route.nil?
+    route.nil?
   end
 
   def add_route(route) #новый маршрут
     self.route = route
     @train_station = 0
-    self.route.route_list[0].input_train(self)    
+    route.route_station[0].input_train(self)    
   end
 
   def train_route_up
-    unless self.route.route_list[@train_station+1] == nil
+    unless route.route_station[@train_station+1] == nil
       @train_station +=1
-      self.route.route_list[@train_station-1].output_train(self)
-      self.route.route_list[@train_station].input_train(self)
+      route.route_station[@train_station-1].output_train(self)
+      route.route_station[@train_station].input_train(self)
     else
       puts "Вы на конечной станции маршрута!"
     end
@@ -91,15 +91,15 @@ class Train
   def train_route_down
     if @train_station > 0
       @train_station -=1
-      self.route.route_list[@train_station+1].output_train(self)
-      self.route.route_list[@train_station].input_train(self)
+      route.route_station[@train_station+1].output_train(self)
+      route.route_station[@train_station].input_train(self)
     else
       puts "Вы на первой станции маршрута!"
     end
   end
 
   def train_station_del #Убираем поезд с текущей станции
-    self.route.route_list[@train_station].output_train(self)
+    route.route_station[@train_station].output_train(self)
   end
 
   def valid?
