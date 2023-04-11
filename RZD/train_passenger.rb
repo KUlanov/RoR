@@ -12,9 +12,9 @@ class Train_Passenger < Train
 
   def add_wagons
     if self.speed == 0
-         train_wagon_list << Wagon_Passenger.new
+         train_wagon_list << Wagon_Passenger.new(100)
     else 
-      puts "Поезд движеться. Нельзя прицепить вагоны!"
+      puts "Поезд движется. Нельзя прицепить вагоны!"
     end
   end
 
@@ -22,7 +22,7 @@ class Train_Passenger < Train
     if self.speed == 0
       train_wagon_list.delete_at(-1)
     else 
-      puts "Поезд движеться. Нельзя отцепить вагоны!"
+      puts "Поезд движется. Нельзя отцепить вагоны!"
     end
   end
 

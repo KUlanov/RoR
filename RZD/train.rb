@@ -111,5 +111,6 @@ class Train
 
   def validate!
     raise puts 'Некоректный формат номера поезда!' if self.number !~ TYPENUM
+    raise puts 'Данный номер поезда уже существует' unless Train.find(self.number).nil?
   end
 end
