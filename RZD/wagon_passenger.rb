@@ -7,11 +7,14 @@ class Wagon_Passenger < Wagon
     #@pass = pass
     #@current_pass=0
   end
-=begin
-  def set_pass (pass)
-    current_pass += pass if pass <= free_pass
+  def set_volume (vol)
+    if vol <= unoccupied_volume 
+      self.current_volume += 1 
+    else 
+      puts "Превышено количество мест!"
+    end
   end
-
+=begin
   def free_pass
     pass-current_pass
   end

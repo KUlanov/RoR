@@ -287,9 +287,14 @@ class Rzd
       input = gets.to_i
       if input == 1
         select_wagon
-       print "Какое количество объема/пассажиров вы хотите добавить?"
-        vol = gets.to_i
-        @current_wagon.set_volume(vol)
+        if @current_wagon.type == "Cargo"
+          print "Какое количество объема вы хотите добавить?"
+          vol = gets.to_i
+          @current_wagon.set_volume(vol)
+        else 
+          @current_wagon.set_volume(1)       
+          puts "Число пассажиров  вагоне: #{@current_wagon.current_volume}"
+        end        
       elsif input == 0
         break
       end
