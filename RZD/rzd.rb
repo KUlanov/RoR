@@ -5,6 +5,7 @@ class Rzd
   @type_train
   @current_station
   @current_route
+  @current_wagon
 
   def initialize
     @train_cargo_lists = []
@@ -42,17 +43,21 @@ class Rzd
   def show_train_lists
     puts
     puts "Пассажирские поезда:"
-    self.train_passenger_lists.each do |train| 
+    train_passenger_lists.each do |train| 
       print "№#{self.train_passenger_lists.index(train)+1} : #{train.number}."
-      print " Количество вагонов: #{train.train_wagon_quantity}"
-      print "   Текущая станция: #{train.train_current_station.name}" if train.train_current_station      
+      print "   Текущая станция: #{train.train_current_station.name}" if train.train_current_station  
+      puts " Количество вагонов: #{train.train_wagon_quantity}"
+      
+      train.show_wagon_list    
       puts
     end
     puts "Грузовые поезда:"
-    self.train_cargo_lists.each  do |train| 
+    train_cargo_lists.each  do |train| 
       print "№#{self.train_cargo_lists.index(train)+1} : #{train.number}" 
-      print " Количество вагонов: #{train.train_wagon_quantity}"
       print "   Текущая станция: #{train.train_current_station.name}" if train.train_current_station
+      puts " Количество вагонов: #{train.train_wagon_quantity}"
+      
+      train.show_wagon_list
       puts
     end
   end
@@ -98,10 +103,22 @@ class Rzd
     print "Введите порядковый номер поезда: "
     i = gets.to_i-1
     if @type_train == "Cargo" 
-      @current_train = self.train_cargo_lists[i]
+      @current_train = train_cargo_lists[i]
     elsif @type_train == "Passenger"
-      @current_train = self.train_passenger_lists[i]
+      @current_train = train_passenger_lists[i]
     end
+  end
+
+  def select_wagon
+    puts "С каким поездом вы хотите работать?"
+    select_train
+    @current_train.show_wagon_list
+    print "С каким вагоном вы хотите работать?"
+    i = gets.to_i-1
+    @current_wagon = @current_train.train_wagon_list[i]
+    raise puts "нет такого вагона!" if @current_wagon.nil?
+   rescue StandardError
+    retry
   end
 
   def start_menu
@@ -110,14 +127,17 @@ class Rzd
       puts "1. Станции"
       puts "2. Маршруты"
       puts "3. Поезда"
+      puts "4. Вагоны"
       puts "0. Выход"
       input = gets.to_i
       if input == 1 
-        self.staion_menu
+        staion_menu
       elsif input == 2 
-        self.route_menu
+        route_menu
       elsif input == 3 
-        self.train_menu
+        train_menu
+      elsif input == 4 
+        wagon_menu
       elsif input == 0 
         break
       end
@@ -211,7 +231,7 @@ class Rzd
       begin
         print "Введите номер поезда: "
         name = gets.chomp        
-        self.insert_type_train
+        insert_type_train
         print "Введите количество вагонов: "
         wagon = gets.to_i
         
@@ -220,8 +240,8 @@ class Rzd
         #retry
        end
       elsif input == 2
-        self.select_train
-        self.show_route_lists
+        select_train
+        show_route_lists
         print "Введите номер маршрута: "
         n = gets.to_i-1
         unless @current_train.train_route_nil?          
@@ -229,17 +249,17 @@ class Rzd
         end
         @current_train.add_route(Route.all[n])        
       elsif input == 3 
-        self.select_train
+        select_train
         @current_train.add_wagons              
       elsif input == 4 
-        self.select_train
+        select_train
         if @current_train.train_wagon_quantity > 0
           @current_train.del_wagons
         else
           puts "У поезда не может быть отрицательное количество вагонов!"
         end
       elsif input == 5 
-        self.select_train
+        select_train
         if @current_train.train_route_nil?
           puts "У поезда не задан маршрут!" 
         else 
@@ -258,5 +278,23 @@ class Rzd
 
     end
   end
+ 
+  def wagon_menu
+    loop do
+      puts "Что вы хотите сделать?"
+      puts "1. Добавить объем/пассажиров"
+      puts "0. Выход"
+      input = gets.to_i
+      if input == 1
+        select_wagon
+       print "Какое количество объема/пассажиров вы хотите добавить?"
+        vol = gets.to_i
+        @current_wagon.set_volume(vol)
+      elsif input == 0
+        break
+      end
+    end
+  end
+ 
 
 end

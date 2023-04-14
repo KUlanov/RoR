@@ -52,6 +52,10 @@ class Train
     self.speed = 0
   end
   
+  def block_wagons_list(&block)
+    train_wagon_list.each {|wagon| block.call(wagon)}
+  end
+
   def add_wagons
     if self.speed == 0
          self.train_wagon_list +=1 

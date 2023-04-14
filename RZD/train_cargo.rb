@@ -12,7 +12,7 @@ class Train_Cargo < Train
   
   def add_wagons
     if self.speed == 0
-         train_wagon_list << Wagon_Cargo.new(100)
+         train_wagon_list << Wagon_Cargo.new("Cargo", rand(100))
     else 
       puts "Поезд движется. Нельзя прицепить вагоны!"
     end
@@ -25,5 +25,11 @@ class Train_Cargo < Train
       puts "Поезд движется. Нельзя отцепить вагоны!"
     end
   end
-
+  
+  def show_wagon_list
+    train_wagon_list.each do |wagon|
+      print "Вагон № #{train_wagon_list.index(wagon)+1}, тип: грузовой,"
+      puts " количество занятого места: #{wagon.current_volume}, количество свободного места: #{wagon.unoccupied_volume}"
+    end
+  end
 end

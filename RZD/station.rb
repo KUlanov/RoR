@@ -30,7 +30,14 @@ class Station
   end
 
   def show_train_list
-    train_list.each {|train| puts train.number}    
+    train_list.each do |train| 
+      puts train.number
+      train.show_wagon_list
+    end
+  end
+
+  def block_train_list (&block)
+    train_list.each {|train| block.call(train)}    
   end
 
   def show_train_tips(type)
