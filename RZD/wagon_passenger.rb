@@ -7,8 +7,8 @@ class Wagon_Passenger < Wagon
     #@pass = pass
     #@current_pass=0
   end
-  def set_volume (vol)
-    if vol <= unoccupied_volume 
+  def add_pass
+    if unoccupied_volume >0 
       self.current_volume += 1 
     else 
       puts "Превышено количество мест!"

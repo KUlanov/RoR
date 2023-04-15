@@ -292,7 +292,7 @@ class Rzd
           vol = gets.to_i
           @current_wagon.set_volume(vol)
         else 
-          @current_wagon.set_volume(1)       
+          @current_wagon.add_pass       
           puts "Число пассажиров  вагоне: #{@current_wagon.current_volume}"
         end        
       elsif input == 0
