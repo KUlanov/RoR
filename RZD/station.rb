@@ -1,7 +1,8 @@
 class Station
   include InstanceCounter
   attr_accessor :name, :train_list
-  @@station_list=[]
+
+  @@station_list = []
 
   def self.all
     @@station_list
@@ -9,40 +10,38 @@ class Station
 
   def initialize(name)
     @name = name
-    @train_list = []  
+    @train_list = []
     validate!
     @@station_list << self
-    register_instance        
+    register_instance
   end
 
   def self.station?(i)
-    raise puts 'Такой станции не существует' if Station.all[i].nil? or i<0
+    raise puts 'Такой станции не существует' if Station.all[i].nil? or i < 0
   end
 
   def input_train(train)
     train_list << train
-    puts "Поезд № #{train.number} прибыл на станцию #{self.name}"
+    puts "Поезд № #{train.number} прибыл на станцию #{name}"
   end
 
   def output_train(train)
     train_list.delete(train)
-    puts "Поезд № #{train.number} убыл со станции #{self.name}"
+    puts "Поезд № #{train.number} убыл со станции #{name}"
   end
 
   def show_train_list
-    train_list.each do |train| 
+    train_list.each do |train|
       puts train.number
       train.show_wagon_list
     end
   end
 
-  def block_train_list (&block)
-    train_list.each {|train| block.call(train)}    
+  def block_train_list(&block)
+    train_list.each { |train| block.call(train) }
   end
 
-  def show_train_tips(type)
-    
-  end
+  def show_train_tips(type); end
 
   def valid?
     validate!
@@ -52,6 +51,6 @@ class Station
   end
 
   def validate!
-    raise puts 'Название станции не должно быть пустым!' if self.name.empty?    
+    raise puts 'Название станции не должно быть пустым!' if name.empty?
   end
 end
