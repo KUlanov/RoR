@@ -16,6 +16,11 @@ class TrainCargo < Train
     else
       puts 'Поезд движется. Нельзя прицепить вагоны!'
     end
+    if train_wagon_quantity.positive?
+      del_wagons
+    else
+      puts 'У поезда не может быть отрицательное количество вагонов!'
+    end
   end
 
   def del_wagons

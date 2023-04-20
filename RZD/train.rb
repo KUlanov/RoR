@@ -85,7 +85,9 @@ class Train
   end
 
   def train_route_up
-    if route.route_station[@train_station + 1].nil?
+    if train_route_nil?
+      puts 'У поезда не задан маршрут!'
+    elsif route.route_station[@train_station + 1].nil?
       puts 'Вы на конечной станции маршрута!'
     else
       @train_station += 1
@@ -95,7 +97,9 @@ class Train
   end
 
   def train_route_down
-    if @train_station.possitive?
+    if train_route_nil?
+      puts 'У поезда не задан маршрут!'
+    elsif @train_station.positive?
       @train_station -= 1
       route.route_station[@train_station + 1].output_train(self)
       route.route_station[@train_station].input_train(self)
