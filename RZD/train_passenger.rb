@@ -1,4 +1,4 @@
-class Train_Passenger < Train
+class TrainPassenger < Train
   include InstanceCounter
   attr_reader :type_train, :train_wagon_list
 
@@ -12,7 +12,7 @@ class Train_Passenger < Train
 
   def add_wagons
     if speed.zero?
-      train_wagon_list << Wagon_Passenger.new('Passenger', rand(10))
+      train_wagon_list << WagonPassenger.new('Passenger', rand(10))
     else
       puts 'Поезд движется. Нельзя прицепить вагоны!'
     end

@@ -39,11 +39,11 @@ class Train
   end
 
   def speed_train
-    self.speed
+    @speed
   end
 
   def speed_train_down
-    if self.speed > 10
+    if speed > 10
       self.speed -= 10
     else
       self.speed = 0
@@ -67,7 +67,7 @@ class Train
   end
 
   def del_wagons
-    if self.speed.zero?
+    if speed.zero?
       self.train_wagon_list -= 1
     else
       puts 'Поезд движеться. Нельзя отцепить вагоны!'

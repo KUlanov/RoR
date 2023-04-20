@@ -1,4 +1,4 @@
-class Wagon_Passenger < Wagon
+class WagonPassenger < Wagon
   attr_accessor :pass, :current_pass
 
   def initialize(type, pass)

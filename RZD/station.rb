@@ -8,6 +8,10 @@ class Station
     @@station_list
   end
 
+  def self.find(name)
+    Station.all.find { |station| station.name == name }
+  end
+
   def initialize(name)
     @name = name
     @train_list = []
@@ -17,7 +21,7 @@ class Station
   end
 
   def self.station?(i)
-    raise puts 'Такой станции не существует' if Station.all[i].nil? or i < 0
+    raise puts 'Такой станции не существует' if Station.all[i].nil? || i.negative?
   end
 
   def input_train(train)
@@ -52,5 +56,6 @@ class Station
 
   def validate!
     raise puts 'Название станции не должно быть пустым!' if name.empty?
+    raise puts 'Даннаяая станция уже существует' if Station.find(name)
   end
 end

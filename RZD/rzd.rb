@@ -13,6 +13,7 @@ class Rzd
 
   def add_station(name)
     Station.new(name)
+  rescue StandardError
   end
 
   def show_station_lists
@@ -32,9 +33,9 @@ class Rzd
 
   def add_train(number_train, type_train, wagons)
     if type_train == 'Cargo'
-      train_cargo_lists << Train_Cargo.new(number_train, type_train, wagons)
+      train_cargo_lists << TrainCargo.new(number_train, type_train, wagons)
     elsif type_train == 'Passenger'
-      train_passenger_lists << Train_Passenger.new(number_train, type_train, wagons)
+      train_passenger_lists << TrainPassenger.new(number_train, type_train, wagons)
     end
   end
 
@@ -83,11 +84,13 @@ class Rzd
   def insert_type_train
     print 'Введите тип поезда. 1 - пасажирский. 2 - грузовой: '
     type = gets.to_i
-    if type == 1
+    case type
+    when 1
       @type_train = 'Passenger'
-    elsif type == 2
+    when 2
       @type_train = 'Cargo'
-    elsif raise puts 'Неправильный тип. Выберите один из двух типов!'
+    else 
+      raise puts 'Неправильный тип. Выберите один из двух типов!'
     end
   rescue StandardError
     retry
@@ -126,15 +129,16 @@ class Rzd
       puts '4. Вагоны'
       puts '0. Выход'
       input = gets.to_i
-      if input == 1
+      case input
+      when 1
         staion_menu
-      elsif input == 2
+      when 2
         route_menu
-      elsif input == 3
+      when 3
         train_menu
-      elsif input == 4
+      when 4
         wagon_menu
-      elsif input == 0
+      when 0
         break
       end
     end
@@ -148,16 +152,13 @@ class Rzd
       puts '2. Посмотреть список поездов на станции'
       puts '0. Выход'
       input = gets.to_i
-      if input == 1
-        begin
-          print 'Введите название станции:'
-          add_station(gets.chomp)
-        rescue StandardError
-          retry
-        end
-      elsif input == 2
+      case input
+      when 1
+        print 'Введите название станции:'
+        add_station(gets.chomp)
+      when 2
         current_station.show_train_list
-      elsif input == 0
+      when 0
         break
       end
     end
@@ -172,7 +173,8 @@ class Rzd
       puts '3. Удалить станцию из маршрута'
       puts '0. Выход'
       input = gets.to_i
-      if input == 1
+      case input
+      when 1
         show_station_lists
         print 'Станция №1: '
         current_station
@@ -180,27 +182,25 @@ class Rzd
         print 'Станция №2: '
         station_l = current_station
         add_route(station_f, station_l)
-      elsif input == 2
-        begin
-          show_route_lists
-          show_station_lists
-          station = current_station
-          raise puts 'Такая станция уже существует в маршруте' if current_route.find_station(station)
-        rescue StandardError
-          retry
+      when 2
+        show_route_lists
+        show_station_lists
+        station = current_station
+        if current_route.find_station(station)
+          puts 'Такая станция уже существует в маршруте'
+        else
+          @current_route.add_route_station(station)
         end
-        @current_route.add_route_station(station)
-      elsif input == 3
-        begin
-          show_route_lists
-          show_station_lists
-          station = current_station
-          raise puts 'Такая станция не существует в маршруте' unless current_route.find_station(station)
-        rescue StandardError
-          retry
+      when 3
+        show_route_lists
+        show_station_lists
+        station = current_station
+        if current_route.find_station(station)
+          @current_route.del_route_station(station)
+        else
+          puts 'Такая станция не существует в маршруте'
         end
-        @current_route.del_route_station(station)
-      elsif input == 0
+      when 0
         break
       end
     end
@@ -218,7 +218,8 @@ class Rzd
       puts '6. Переместить поезд назад по маршруту'
       puts '0. Выход'
       input = gets.to_i
-      if input == 1
+      case input
+      when 1
         begin
           print 'Введите номер поезда: '
           name = gets.chomp
@@ -228,38 +229,38 @@ class Rzd
           add_train(name, @type_train, wagon)
         rescue StandardError
         end
-      elsif input == 2
+      when 2
         select_train
         show_route_lists
         print 'Введите номер маршрута: '
         n = gets.to_i - 1
         @current_train.train_station_del unless @current_train.train_route_nil?
         @current_train.add_route(Route.all[n])
-      elsif input == 3
+      when 3
         select_train
         @current_train.add_wagons
-      elsif input == 4
+      when 4
         select_train
         if @current_train.train_wagon_quantity.possitive?
           @current_train.del_wagons
         else
           puts 'У поезда не может быть отрицательное количество вагонов!'
         end
-      elsif input == 5
+      when 5
         select_train
         if @current_train.train_route_nil?
           puts 'У поезда не задан маршрут!'
         else
           @current_train.train_route_up
         end
-      elsif input == 6
+      when 6
         select_train
         if @current_train.train_route_nil?
           puts 'У поезда не задан маршрут!'
         else
           @current_train.train_route_down
         end
-      elsif input == 0
+      when 0
         break
       end
     end
@@ -271,7 +272,8 @@ class Rzd
       puts '1. Добавить объем/пассажиров'
       puts '0. Выход'
       input = gets.to_i
-      if input == 1
+      case input
+      when 1
         select_wagon
         if @current_wagon.type == 'Cargo'
           print 'Какое количество объема вы хотите добавить?'
@@ -281,7 +283,7 @@ class Rzd
           @current_wagon.add_pass
           puts "Число пассажиров  вагоне: #{@current_wagon.current_volume}"
         end
-      elsif input == 0
+      when 0
         break
       end
     end

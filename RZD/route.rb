@@ -7,7 +7,7 @@ class Route
   end
 
   def self.route?(i)
-    raise puts 'Такого маршрута не существует' if Route.all[i].nil? or i < 0
+    raise puts 'Такого маршрута не существует' if Route.all[i].nil? || i.negative?
   end
 
   def initialize(f_station, l_station)
