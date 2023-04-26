@@ -1,7 +1,6 @@
 class Wagon
-  include Company
-  attr_reader :type
-  attr_accessor :volume, :current_volume
+  include Company, Accessor
+  attr_accessor_with_history :volume, :current_volume, :type
 
   def initialize(type, vol)
     @type = type
@@ -15,6 +14,7 @@ class Wagon
     else
       puts 'Превышено количество места!'
     end
+    print @current_volume_history
   end
 
   def unoccupied_volume

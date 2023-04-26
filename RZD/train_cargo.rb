@@ -12,15 +12,10 @@ class TrainCargo < Train
 
   def add_wagons
     if speed.zero?
-      train_wagon_list << WagonCargo.new('Cargo', rand(100))
+      self.train_wagon_list << WagonCargo.new('Cargo', rand(100))
     else
       puts 'Поезд движется. Нельзя прицепить вагоны!'
-    end
-    if train_wagon_quantity.positive?
-      del_wagons
-    else
-      puts 'У поезда не может быть отрицательное количество вагонов!'
-    end
+    end    
   end
 
   def del_wagons
