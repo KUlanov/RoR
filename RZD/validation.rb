@@ -4,23 +4,32 @@ module Validation
     base.include InstanceMethods
   end
 
-  module ClassMethods
-    def validate(var, type, param=nil)
-    end
-
-    def valid_presence (var)
-      raise "Переменная не может быть пустой!" if (var.empty? && var.is_a?(String)) || var.nil?
-    end
-
-    def valid_format(var, format)
-      raise puts 'Некоректный формат данных!' if var !~ format
-    end
-    def valid_type(var, type)
-      raise 'Неверный класс атрибута' if var.is_a?(type)
+  module ClassMethods    
+    def validate(name, type, param=nil)
+      @valid_arr ||= []
+      @valid_arr << {name: name, type: type, param: param} 
+      puts @valid_arr[0]
     end
   end
 
   module InstanceMethods
     def validate!
-      
+      puts @valid_arr[0]
+      self.class.valid_arr.each do |type|
+      send(type, var, param)
+      end
     end
+
+    def presence (var, v)
+      raise "Переменная не может быть пустой!" if (var.empty? && var.is_a?(String)) || var.nil?
+    end
+
+    def format(var, format)
+      raise puts 'Некоректный формат данных!' if var !~ format
+    end
+
+    def type(var, type)
+      raise 'Неверный класс атрибута' if var.is_a?(type)
+    end
+  end
+end

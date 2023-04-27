@@ -1,9 +1,12 @@
 class Train
-  include Company
+  include Company, Validation
   attr_reader :number, :type_train, :train_wagon_list
   attr_accessor :speed, :route
 
   TYPENUM = /^\w{3}-?\w{2}$/
+
+  validate :number, :format, :TYPENUM
+  validate :type_train, :type, :String
 
   @@train_all = []
 
@@ -119,8 +122,9 @@ class Train
     false
   end
 
-  def validate!
+=begin def validate!
     raise puts 'Некоректный формат номера поезда!' if number !~ TYPENUM
     raise puts 'Данный номер поезда уже существует' unless Train.find(number).nil?
   end
+=end
 end
