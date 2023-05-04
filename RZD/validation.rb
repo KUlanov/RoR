@@ -5,23 +5,27 @@ module Validation
   end
 
   module ClassMethods    
+    attr_reader :valid_arr
     def validate(name, type, param=nil)
       @valid_arr ||= []
-      @valid_arr << {name: name, type: type, param: param} 
-      puts @valid_arr[0]
+      @valid_arr << {name: name, type: type, param: param}
+      puts @valid_arr
     end
   end
 
   module InstanceMethods
-    def validate!
-      puts @valid_arr[0]
-      self.class.valid_arr.each do |type|
-      send(type, var, param)
+    def validate!      
+      self.class.instance_variable_get(:@valid_arr).each do |t|        
+        var = instance_variable_get("@#{t[:name]}")
+        print var, "@#{t[:name]}"
+        puts
+        send(:"#{t[:type]}", var, t[:param]) 
       end
     end
 
     def presence (var, v)
-      raise "Переменная не может быть пустой!" if (var.empty? && var.is_a?(String)) || var.nil?
+      puts var
+      raise "Переменная не может быть пустой!" if var.empty? && var.is_a?(String) #|| var.nil?)
     end
 
     def format(var, format)

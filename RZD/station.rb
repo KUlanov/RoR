@@ -1,8 +1,11 @@
 class Station
-  include InstanceCounter
+  include InstanceCounter, Validation
   attr_accessor :name, :train_list
 
   @@station_list = []
+
+  #validate :name, :type, String
+  validate :name, :presence
 
   def self.all
     @@station_list
@@ -14,8 +17,10 @@ class Station
 
   def initialize(name)
     @name = name
-    @train_list = []
+    puts
+    puts @valid_arr
     validate!
+    @train_list = []    
     @@station_list << self
     register_instance
   end
@@ -47,7 +52,7 @@ class Station
 
   def show_train_tips(type); end
 
-  def valid?
+=begin  def valid?
     validate!
     true
   rescue StandardError
@@ -58,4 +63,5 @@ class Station
     raise puts 'Название станции не должно быть пустым!' if name.empty?
     raise puts 'Даннаяая станция уже существует' if Station.find(name)
   end
+=end
 end

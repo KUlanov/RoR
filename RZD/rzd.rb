@@ -12,8 +12,7 @@ class Rzd
   end
 
   def add_station(name)
-    Station.new(name)
-  rescue StandardError
+    Station.new(name)  
   end
 
   def show_station_lists
