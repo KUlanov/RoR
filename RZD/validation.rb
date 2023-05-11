@@ -21,7 +21,6 @@ module Validation
       end      
       source.instance_variable_get(:@valid_arr).each do |t|        
         var = instance_variable_get("@#{t[:name]}")
-        puts t[:param]
         send(:"#{t[:type]}", var, t[:param])
       end    
     end

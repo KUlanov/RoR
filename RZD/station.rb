@@ -1,14 +1,14 @@
 class Station
-  include InstanceCounter, Validation
-  attr_accessor :name, :train_list
+  include InstanceCounter, Validation, Accessor
+  attr_accessor :train_list
+  attr_accessor_with_history :name
 
   @@station_list = []
-
   validate :name, :type, String
   validate :name, :presence
 
   def self.all
-    @@station_list
+    @@station_list    
   end
 
   def self.find(name)
@@ -20,8 +20,8 @@ class Station
     if valid?      
       @train_list = []    
       @@station_list << self
-      register_instance
-    end
+      register_instance      
+    end    
   end
 
   def self.station?(i)
