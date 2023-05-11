@@ -20,7 +20,8 @@ module Validation
         source = self.class.superclass
       end      
       source.instance_variable_get(:@valid_arr).each do |t|        
-        var = instance_variable_get("@#{t[:name]}")       
+        var = instance_variable_get("@#{t[:name]}")
+        puts t[:param]
         send(:"#{t[:type]}", var, t[:param])
       end    
     end
@@ -42,6 +43,6 @@ module Validation
   end
 
   def type(var, type)
-    raise puts "Неверный класс атрибута" if var.class == type
+    raise puts "Неверный класс атрибута" unless var.is_a?(type)
   end  
 end

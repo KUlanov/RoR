@@ -4,7 +4,7 @@ class Station
 
   @@station_list = []
 
-  #validate :name, :type, String
+  validate :name, :type, String
   validate :name, :presence
 
   def self.all

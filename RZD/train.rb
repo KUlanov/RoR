@@ -5,9 +5,9 @@ class Train
 
   TYPENUM = /^\w{3}-?\w{2}$/
 
+  validate :number, :presence
   validate :number, :format, TYPENUM
-  validate :type_train, :type, String
-
+    
   @@train_all = []
 
   def self.train_all
