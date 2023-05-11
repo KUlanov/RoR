@@ -16,13 +16,12 @@ class Station
   end
 
   def initialize(name)
-    @name = name
-    puts
-    puts @valid_arr
-    validate!
-    @train_list = []    
-    @@station_list << self
-    register_instance
+    @name = name    
+    if valid?      
+      @train_list = []    
+      @@station_list << self
+      register_instance
+    end
   end
 
   def self.station?(i)
@@ -51,17 +50,4 @@ class Station
   end
 
   def show_train_tips(type); end
-
-=begin  def valid?
-    validate!
-    true
-  rescue StandardError
-    false
-  end
-
-  def validate!
-    raise puts 'Название станции не должно быть пустым!' if name.empty?
-    raise puts 'Даннаяая станция уже существует' if Station.find(name)
-  end
-=end
 end

@@ -12,7 +12,7 @@ class Rzd
   end
 
   def add_station(name)
-    Station.new(name)  
+    Station.new(name)
   end
 
   def show_station_lists
